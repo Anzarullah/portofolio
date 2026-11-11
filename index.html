@@ -283,17 +283,26 @@
     box-shadow:0 30px 60px -20px rgba(24,24,24,0.35);
   }
   .hero-photo::before{
-    content:none;
+    content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(45deg, rgba(250,248,243,0.045) 0 2px, transparent 2px 14px);
   }
-  .hero-photo img{
-    position:absolute;inset:0;
-    width:100%;height:100%;
-    object-fit:cover;
-    object-position:center top;
-    display:block;
+  .hero-photo-mono{
+    position:relative;z-index:1;
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:96px;
+    color:rgba(250,248,243,0.92);
+    letter-spacing:-0.02em;
   }
-  .hero-photo-mono{display:none;}
-  .hero-photo-tag{display:none;}
+  .hero-photo-tag{
+    position:absolute;bottom:18px;left:18px;right:18px;
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:rgba(250,248,243,0.55);
+    z-index:1;
+  }
   .reg-mark{position:absolute;width:18px;height:18px;}
   .reg-mark::before,.reg-mark::after{content:"";position:absolute;background:var(--charcoal);}
   .reg-mark::before{top:50%;left:0;width:18px;height:1px;transform:translateY(-50%);}
@@ -434,7 +443,6 @@
       linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
     background-size:28px 28px;
     position:relative;
-    overflow:hidden;
   }
   .shot-body .shot-placeholder-label{
     font-family:var(--font-mono);
@@ -446,13 +454,6 @@
     padding:8px 14px;
     border:1px dashed var(--line);
     border-radius:var(--radius-sm);
-  }
-  .shot-body img{
-    position:absolute;inset:0;
-    width:100%;height:100%;
-    object-fit:cover;
-    object-position:center top;
-    display:block;
   }
 
   /* ===================================================================
@@ -595,9 +596,131 @@
     .hero-actions{flex-direction:column;}
     .hero-actions .btn{width:100%;}
   }
+
+  /* ===================================================================
+     VISUAL REFRESH — soft surfaces, pill UI, gradient canvas
+  =================================================================== */
+  :root{--r-lg:28px;--r-md:18px;--pill:999px;--card:rgba(255,255,255,0.58);--blue-wash:#E6ECF8;}
+  body{
+    background:
+      radial-gradient(900px 600px at 8% -5%, rgba(27,42,74,0.07), transparent 60%),
+      radial-gradient(800px 600px at 100% 12%, #E3EAF7, transparent 60%),
+      radial-gradient(700px 500px at 0% 70%, #F3ECDA, transparent 65%),
+      var(--off-white);
+    background-attachment:fixed;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:radial-gradient(rgba(24,24,24,0.09) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom, black, transparent 70%);
+    mask-image:linear-gradient(to bottom, black, transparent 70%);
+  }
+  .progress{position:fixed;top:0;left:0;right:0;height:2px;background:var(--navy);transform-origin:left;transform:scaleX(0);z-index:300;}
+
+  /* nav: floating pill */
+  .nav{background:transparent;height:auto;padding-top:14px;border:none !important;}
+  .nav.scrolled{height:auto;}
+  .nav-inner{
+    max-width:calc(var(--container) - 40px);
+    padding:10px 12px 10px 14px;
+    background:rgba(250,248,243,0.74);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);
+    border:1px solid var(--line);
+    border-radius:var(--pill);
+    box-shadow:0 8px 30px -18px rgba(24,24,24,0.3);
+    margin:0 var(--pad-x);
+    width:calc(100% - 2 * var(--pad-x));
+    max-width:var(--container);
+    margin-left:auto;margin-right:auto;
+  }
+  .logo-box{border-radius:12px;background:var(--charcoal);color:var(--off-white);border:none;}
+  .logo-sub{color:var(--charcoal);font-weight:500;}
+  .nav-links{gap:6px;}
+  .nav-links a{padding:8px 16px;border-radius:var(--pill);text-transform:none;font-family:var(--font-body);font-size:14px;font-weight:500;letter-spacing:0;}
+  .nav-links a::after{display:none;}
+  .nav-links a:hover{background:rgba(24,24,24,0.06);}
+  .nav-cta{background:var(--charcoal);color:var(--off-white);border-radius:var(--pill);padding:11px 20px;font-family:var(--font-body);font-weight:500;}
+  .nav-cta:hover{background:var(--navy);}
+
+  /* shared controls */
+  .btn{border-radius:var(--pill);font-family:var(--font-body);text-transform:none;font-size:15px;font-weight:500;letter-spacing:0;padding:15px 28px;}
+  .btn-primary{background:var(--charcoal);}
+  .btn-primary:hover{background:var(--navy);}
+  .btn-secondary{background:rgba(255,255,255,0.6);border-color:var(--line);}
+  .chip{border-radius:var(--pill);background:rgba(255,255,255,0.7);text-transform:none;font-size:12.5px;padding:6px 13px;}
+  .project-index{
+    display:inline-block;background:var(--charcoal);color:var(--off-white) !important;
+    padding:6px 14px;border-radius:var(--pill);margin-bottom:18px;font-size:11.5px;
+  }
+
+  /* hero */
+  .hero-eyebrow{
+    display:inline-flex;background:rgba(255,255,255,0.7);border:1px solid var(--line);
+    padding:7px 16px;border-radius:var(--pill);
+  }
+  .hero-eyebrow .dash{display:none;}
+  .hero h1{letter-spacing:-0.025em;}
+  .hero-photo{border-radius:var(--r-lg);}
+  .hero-photo-wrap{max-width:380px;}
+  .stats-strip{border:none;margin-top:80px;}
+  .stats-strip .container{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:0 12px;
+  }
+  .stats-strip .container .stat-cell:first-child{padding-left:var(--pad-x);}
+  .stats-strip .container .stat-cell:last-child{padding-right:var(--pad-x);}
+  .stats-strip .container{max-width:calc(var(--container) - 2 * var(--pad-x) + 0px);}
+
+  /* cards */
+  .section-head{border-bottom:none;padding-bottom:0;margin-bottom:48px;}
+  .edu-card,.cert-card{border-radius:var(--r-lg);background:var(--card);border-color:var(--line);}
+  .skill-grid{border-radius:var(--r-lg);overflow:hidden;background:var(--line);}
+  .skill-col{background:rgba(250,248,243,0.92);}
+  .trait-item{border-bottom:1px solid var(--line-soft);}
+  .exp-entry{border-bottom:1px solid var(--line-soft);}
+
+  .project-card,.project-card:first-of-type,.project-card:last-of-type{
+    padding:28px;border:1px solid var(--line);border-radius:var(--r-lg);
+    background:var(--card);margin-bottom:28px;gap:44px;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:box-shadow .45s var(--ease),transform .45s var(--ease);
+  }
+  .project-card:hover{box-shadow:0 30px 60px -34px rgba(24,24,24,0.3);}
+  .project-card:last-of-type{margin-bottom:0;}
+  .project-info{padding:12px 8px 12px 18px;}
+  .project-card.flip .project-info{padding:12px 18px 12px 8px;}
+  .shot-area{border-radius:var(--r-md);background:#fff;}
+  .shot-area:hover{transform:none;box-shadow:none;}
+  .shot-body img{transition:transform .9s var(--ease);}
+  .project-card:hover .shot-body img{transform:scale(1.025);}
+  .shot-chrome{background:#fff;}
+
+  /* contact: rounded dark panel */
+  .contact-section{
+    background:var(--charcoal);margin:40px 16px 0;border-radius:36px;
+    padding-top:96px;padding-bottom:96px;
+  }
+  .footer{background:transparent;color:var(--charcoal-40);border-top:none;}
+  .footer-back-top{color:var(--charcoal);}
+
+  @media (max-width:980px){
+    .nav-inner{border-radius:22px;}
+    .project-card,.project-card:first-of-type,.project-card:last-of-type{padding:18px;gap:24px;}
+    .project-info,.project-card.flip .project-info{padding:4px 6px 10px;}
+    .contact-section{margin:24px 8px 0;border-radius:28px;}
+    .stats-strip .container{padding:0;}
+    .stats-strip .container .stat-cell:nth-child(odd){padding-left:24px;}
+  }
+
+  .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+  .hero-photo::before{content:none;}
+  .shot-body{overflow:hidden;}
+  .shot-body img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
 </style>
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
 <!-- ============================ NAV ============================ -->
 <header class="nav" id="siteNav">
@@ -812,7 +935,8 @@
             <span class="shot-url"></span>
           </div>
           <div class="shot-body">
-            <img src="Aplikasi Tani Makmur.png" alt="Pratinjau antarmuka TaniHub">
+            <span class="shot-placeholder-label">Pratinjau Antarmuka — Tani Makmur</span>
+            <img src="Aplikasi Tani Makmur.png" alt="Pratinjau antarmuka Tani Makmur" loading="lazy" onerror="this.remove()">
           </div>
         </div>
       </div>
@@ -845,7 +969,8 @@
             <span class="shot-url"></span>
           </div>
           <div class="shot-body">
-            <img src="Aplikasi laporan lembur pegawai.png" alt="Pratinjau antarmuka Laporan Lembur">
+            <span class="shot-placeholder-label">Pratinjau Antarmuka — Laporan Lembur</span>
+            <img src="Aplikasi laporan lembur pegawai.png" alt="Pratinjau antarmuka Laporan Lembur" loading="lazy" onerror="this.remove()">
           </div>
         </div>
       </div>
@@ -874,7 +999,28 @@
             <span class="shot-url"></span>
           </div>
           <div class="shot-body">
-            <img src="Musyawarah Pengurus Harian.png" alt="Pratinjau antarmuka Sistem Absensi Musyawarah">
+            <span class="shot-placeholder-label">Pratinjau Antarmuka — Sistem Absensi</span>
+            <img src="Musyawarah Pengurus Harian.png" alt="Pratinjau antarmuka Sistem Absensi Musyawarah" loading="lazy" onerror="this.remove()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 04 -->
+      <div class="project-card flip reveal">
+        <div class="project-info">
+          <span class="project-index mono-label">Proyek — 04</span>
+          <h3>Pengingat Magang RSWS Makassar</h3>
+          <p class="project-desc">Aplikasi pengingat yang membantu peserta magang di RSWS Makassar memantau jadwal dan kegiatan magang agar tidak ada yang terlewat.</p>
+          <!-- TODO: tambahkan .tech-chips dan .feature-list setelah detail teknis dikonfirmasi -->
+        </div>
+        <div class="shot-area">
+          <div class="shot-chrome">
+            <span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span>
+            <span class="shot-url"></span>
+          </div>
+          <div class="shot-body">
+            <span class="shot-placeholder-label">Pratinjau Antarmuka — Pengingat Magang</span>
+            <img src="Pengingat Magang RSWS.png" alt="Pratinjau antarmuka Pengingat Magang RSWS Makassar" loading="lazy" onerror="this.remove()">
           </div>
         </div>
       </div>
@@ -1083,6 +1229,14 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 12);
   }, { passive:true });
+
+  // Scroll progress
+  const prog = document.getElementById('progress');
+  const updateProg = () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
+  };
+  addEventListener('scroll', updateProg, { passive:true }); updateProg();
 
   // Mobile menu toggle
   const navToggle = document.getElementById('navToggle');

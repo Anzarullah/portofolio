@@ -717,6 +717,30 @@
   .hero-photo::before{content:none;}
   .shot-body{overflow:hidden;}
   .shot-body img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+
+  /* featured project */
+  .project-card.featured{align-items:start;}
+  .project-card.featured .shot-area{position:sticky;top:104px;}
+  .stat-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .stat-pills span{background:var(--navy);color:var(--off-white);border-radius:999px;padding:7px 15px;font-size:13px;}
+  .stat-pills b{font-family:var(--font-display);font-size:15px;margin-right:3px;}
+  .case-extra{grid-column:1 / -1;border-top:1px solid var(--line);margin-top:12px;padding:32px 18px 8px;}
+  .case-flow{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:36px;}
+  .case-flow p{margin-top:8px;color:var(--charcoal-60);font-size:15px;line-height:1.7;}
+  .case-flow .mono-label,.case-title{color:var(--navy);}
+  .decisions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+  .decisions>div{background:rgba(255,255,255,0.7);border:1px solid var(--line);border-radius:var(--r-md);padding:20px;}
+  .decisions h4{font-size:15.5px;margin-bottom:8px;}
+  .decisions p{color:var(--charcoal-60);font-size:13.5px;line-height:1.65;}
+  .decisions code{font-family:var(--font-mono);font-size:12px;background:var(--cream);padding:1px 6px;border-radius:6px;}
+  .testing-note{margin-top:20px;padding:18px 22px;border-radius:var(--r-md);background:var(--navy);color:rgba(250,248,243,0.85);font-size:14px;line-height:1.65;display:flex;gap:18px;align-items:baseline;}
+  .testing-note .mono-label{color:#C9D6F5;flex-shrink:0;}
+  @media (max-width:980px){
+    .project-card.featured .shot-area{position:static;}
+    .case-extra{padding:24px 6px 4px;}
+    .case-flow,.decisions{grid-template-columns:1fr;gap:14px;}
+    .testing-note{flex-direction:column;gap:6px;}
+  }
 </style>
 </head>
 <body>
@@ -1005,13 +1029,35 @@
         </div>
       </div>
 
-      <!-- Project 04 -->
-      <div class="project-card flip reveal">
+      <!-- Project 04 (featured) -->
+      <div class="project-card flip featured reveal">
         <div class="project-info">
-          <span class="project-index mono-label">Proyek — 04</span>
+          <span class="project-index mono-label">Proyek — 04 · Unggulan</span>
           <h3>Pengingat Magang RSWS Makassar</h3>
-          <p class="project-desc">Aplikasi pengingat yang membantu peserta magang di RSWS Makassar memantau jadwal dan kegiatan magang agar tidak ada yang terlewat.</p>
-          <!-- TODO: tambahkan .tech-chips dan .feature-list setelah detail teknis dikonfirmasi -->
+          <p class="project-desc">PWA pengingat absen dan laporan harian untuk 200+ peserta magang RSWS Makassar. Peserta yang lupa absen atau mengisi laporan di MonEV Maganghub bisa terkena sanksi, sementara tidak ada pengingat yang menyesuaikan jadwal shift.</p>
+          <div class="stat-pills">
+            <span><b>200+</b> peserta</span>
+            <span><b>3</b> shift</span>
+            <span><b>5</b> pengingat / peserta</span>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Next.js 16</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">Tailwind CSS v4</span>
+            <span class="chip">Supabase</span>
+            <span class="chip">PostgreSQL</span>
+            <span class="chip">pg_cron</span>
+            <span class="chip">Edge Functions</span>
+            <span class="chip">Web Push (VAPID)</span>
+            <span class="chip">Zod</span>
+            <span class="chip">Vercel</span>
+          </div>
+          <ul class="feature-list">
+            <li>Pengingat kustom per peserta, dengan preset shift dan penanganan shift malam yang melewati tengah malam</li>
+            <li>Web Push dengan eskalasi pengulangan sampai peserta menekan “Sudah lapor”, termasuk tombol konfirmasi di notifikasi</li>
+            <li>Panel admin: impor roster dari Excel, persetujuan klaim profil, pemantauan pengiriman</li>
+            <li>Panduan pemasangan Android dan iPhone di dalam aplikasi</li>
+          </ul>
         </div>
         <div class="shot-area">
           <div class="shot-chrome">
@@ -1019,9 +1065,28 @@
             <span class="shot-url"></span>
           </div>
           <div class="shot-body">
-            <span class="shot-placeholder-label">Pratinjau Antarmuka — pengingat magang</span>
+            <span class="shot-placeholder-label">Pratinjau Antarmuka — Pengingat Magang</span>
             <img src="Aplikasi Pengingat Magang.png" alt="Pratinjau antarmuka Pengingat Magang RSWS Makassar" loading="lazy" onerror="this.remove()">
           </div>
+        </div>
+
+        <div class="case-extra">
+          <div class="case-flow">
+            <div><span class="mono-label">Masalah</span><p>Absen dan laporan harian di MonEV Maganghub wajib setiap hari. Satu kali lupa berdampak serius, dan tidak ada pengingat sesuai shift (pagi, siang, malam).</p></div>
+            <div><span class="mono-label">Solusi</span><p>Peserta masuk dengan Google, memilih nama dari roster, lalu menunggu persetujuan admin. Setelah itu memilih shift, mendapat saran jam pengingat yang bisa diubah, dan menerima notifikasi di HP.</p></div>
+          </div>
+
+          <span class="mono-label case-title">Keputusan Teknis</span>
+          <div class="decisions">
+            <div><h4>Anti-penyerobotan akun</h4><p>Nama peserta awalnya dipakai sebagai kunci login. Saya ganti dengan alur klaim profil yang disetujui admin agar identitas peserta tidak bisa diambil orang lain.</p></div>
+            <div><h4>Penjadwal di dalam Postgres</h4><p>Antrean pengingat memakai <code>SKIP LOCKED</code> dan batasan unik: aman dijalankan paralel, tidak mengirim ganda. Pengingat yang terlambat lebih dari 30 menit dibuang, bukan dikirim basi.</p></div>
+            <div><h4>Anggaran CPU Edge Function</h4><p>Satu push memakai sekitar 3–5 ms CPU dengan batas fungsi 2 detik. Dibatasi 50 event per pemanggilan dengan tiga pekerja paralel.</p></div>
+            <div><h4>Waktu dan zona</h4><p>Jam disimpan sebagai waktu lokal beserta zona, lalu dihitung ke UTC.</p></div>
+            <div><h4>Akses data lewat RLS</h4><p>Peserta hanya bisa melihat dan mengubah datanya sendiri. Fungsi sensitif dibatasi hak aksesnya.</p></div>
+            <div><h4>Batas yang dipilih sendiri</h4><p>Login ke MonEV tidak diotomasi karena akan menyimpan kredensial akun pemerintah milik peserta. WhatsApp ditunda karena risiko pemblokiran nomor; skemanya sudah siap multi-kanal.</p></div>
+          </div>
+
+          <div class="testing-note"><span class="mono-label">Pengujian</span>Migrasi database diuji di Postgres sungguhan (RLS, alur klaim, batas, eskalasi). Enkripsi Web Push diverifikasi end-to-end di runtime Deno, dan beban 216 peserta disimulasikan.</div>
         </div>
       </div>
 
